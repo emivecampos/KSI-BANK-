@@ -186,6 +186,58 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 
+// Carousel functionality with lateral transition
+let currentSlide = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const totalSlides = slides.length;
+
+function nextSlide() {
+    // Mark current slide as previous
+    slides[currentSlide].classList.add('prev');
+    slides[currentSlide].classList.remove('active');
+    
+    // Move to next slide
+    currentSlide = (currentSlide + 1) % totalSlides;
+    slides[currentSlide].classList.add('active');
+    slides[currentSlide].classList.remove('prev');
+    
+    // Clean up previous class after transition
+    setTimeout(() => {
+        slides.forEach((slide, index) => {
+            if (index !== currentSlide) {
+                slide.classList.remove('prev');
+            }
+        });
+    }, 1000);
+}
+
+// Auto-advance carousel every 5 seconds
+if (slides.length > 0) {
+    setInterval(nextSlide, 5000);
+}
+
+// Produtos click animation
+const produtoCards = document.querySelectorAll('.produto-card');
+produtoCards.forEach(card => {
+    card.addEventListener('click', function() {
+        this.classList.add('clicked');
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 600);
+    });
+});
+
+// Beneficios click animation
+const beneficioItems = document.querySelectorAll('.beneficio-item');
+beneficioItems.forEach(item => {
+    item.addEventListener('click', function() {
+        this.classList.add('clicked');
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 600);
+    });
+});
+
 // WhatsApp button animation on scroll
 const whatsappButton = document.querySelector('.whatsapp-float');
 let whatsappVisible = false;
