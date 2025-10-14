@@ -172,18 +172,68 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, var(--navy-blue) 0%, var(--dark-blue) 100%);
+    position: relative;
     padding: 80px 20px;
     color: var(--white);
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.carousel-slide.prev {
+    transform: translateX(-100%);
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(58, 115, 211, 0.85) 0%, rgba(10, 37, 64, 0.9) 100%);
+    z-index: 2;
 }
 
 .hero-content {
+    position: relative;
+    z-index: 3;
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
+    width: 100%;
 }
 
 .hero-badge {
@@ -240,15 +290,7 @@ body {
     filter: brightness(1.1);
 }
 
-.hero-image {
-    animation: fadeInRight 1s ease;
-}
 
-.hero-image img {
-    width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
 
 @keyframes fadeInDown {
     from {
@@ -289,18 +331,41 @@ body {
     background: var(--light-gray);
 }
 
-.taxas-section h2 {
-    text-align: center;
+.taxas-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+    .taxas-header {
+        grid-template-columns: 1fr;
+    }
+}
+
+.taxas-text h2 {
     font-size: 36px;
     margin-bottom: 15px;
     color: var(--navy-blue);
 }
 
-.section-subtitle {
-    text-align: center;
+.taxas-text .section-subtitle {
     font-size: 18px;
     color: var(--text-gray);
-    margin-bottom: 50px;
+}
+
+.taxas-video {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.taxas-video video {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .taxas-grid {
@@ -337,8 +402,14 @@ body {
 
 .beneficios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .beneficios-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .beneficio-item {
@@ -355,6 +426,25 @@ body {
 .beneficio-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.beneficio-item.clicked {
+    background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue-dark));
+    color: var(--white);
+    animation: pulseGradient 0.6s ease;
+}
+
+.beneficio-item.clicked span {
+    color: var(--white);
+}
+
+.beneficio-item.clicked .check-icon {
+    background: var(--white);
+    border-color: var(--white);
+}
+
+.beneficio-item.clicked .check-icon i {
+    color: var(--primary-blue-dark);
 }
 
 .check-icon {
@@ -398,8 +488,14 @@ body {
 
 .produtos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .produtos-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .produto-card {
@@ -415,6 +511,34 @@ body {
     transform: translateY(-8px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     border-color: var(--primary-blue-light);
+}
+
+.produto-card.clicked {
+    background: linear-gradient(135deg, var(--primary-blue-light), var(--primary-blue-dark));
+    color: var(--white);
+    animation: pulseGradient 0.6s ease;
+}
+
+.produto-card.clicked h3,
+.produto-card.clicked li {
+    color: var(--white);
+}
+
+.produto-card.clicked .produto-icon {
+    color: var(--white);
+}
+
+.produto-card.clicked li i {
+    color: var(--white);
+}
+
+@keyframes pulseGradient {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
 }
 
 .produto-number {
